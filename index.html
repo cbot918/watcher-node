@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Server-Sent Event Test</h1>
+<div id="result"></div>
+
+<script>
+  // 建立到服務器的 EventSource 連接
+  const eventSource = new EventSource('http://localhost:3000/events');
+
+  // 監聽消息
+  eventSource.onmessage = function(event) {
+        // 將特殊的字串轉換回換行符號
+        const data = event.data.replace(/\\n/g, '<br>');
+        document.getElementById('result').innerHTML = data;
+  };
+
+  // 處理錯誤
+  eventSource.onerror = function(error) {
+    console.error('EventSource failed:', error);
+    eventSource.close();
+  };
+</script>
+
+</body>
+</html>
